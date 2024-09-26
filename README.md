@@ -40,14 +40,14 @@ Below are the methods
    bool - The condition to check
    message - The error message to record if the assertion fails (Optional)
 
-3. SoftAssert.assert_equals
+3. SoftAssert.assert_equal
    Asserts that two values are equal. If not, adds the provided message to the errors array.
    Parameters : 
    expected - The expected value.
    actual -  The actual value.
    message - The error message to record if the assertion fails. (Optional)
 
-4. SoftAssert.assert_not_equals
+4. SoftAssert.assert_not_equal
    Asserts that two values are not equal. If not, adds the provided message to the errors array.
    Parameters :
    expected - The expected value.
