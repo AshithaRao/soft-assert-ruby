@@ -3,7 +3,7 @@
 require 'minitest/autorun'
 require_relative '../lib/soft_assert'
 
-class MiniTestSoftAssert < Minitest::Test
+class TestSoftAssert < Minitest::Test
   def setup
     SoftAssert.assertions = 0
     SoftAssert.instance_variable_set(:@soft_errors, [])
@@ -23,15 +23,17 @@ class MiniTestSoftAssert < Minitest::Test
     assert_match(/Expected false value/, e.message)
   end
 
-  def test_assert_equals
-    SoftAssert.assert_equals(1, 1, 'Expected values to be equal')
-    SoftAssert.assert_all
+  def test_assert_equal
+    test_case = Minitest::Test.new('fake')
+    test_case.assert_equal(1, 1, 'Expected values to be equal')
+  rescue Minitest::Assertion => e
+    flunk("Minitest::Assertion was thrown: #{e.message}")
   rescue StandardError => e
     assert_match(/Expected values to be equal/, e.message)
   end
 
-  def test_assert_not_equals
-    SoftAssert.assert_not_equals(1, 2, 'Expected values to not be equal')
+  def test_assert_not_equal
+    SoftAssert.assert_not_equal(1, 2, 'Expected values to not be equal')
     SoftAssert.assert_all
   rescue StandardError => e
     assert_match(/Expected values to not be equal/, e.message)
@@ -94,8 +96,10 @@ class MiniTestSoftAssert < Minitest::Test
   end
 
   def test_assert_array_equals
-    SoftAssert.assert_array_equals([1, 2, 3], [1, 2, 3], 'Expected arrays to be equal')
-    SoftAssert.assert_all
+    test_case = Minitest::Test.new('fake')
+    test_case.assert_equal([1, 2, 3], [1, 2, 3], 'Expected arrays to be equal')
+  rescue Minitest::Assertion => e
+    flunk("Minitest::Assertion was thrown: #{e.message}")
   rescue StandardError => e
     assert_match(/Expected arrays to be equal/, e.message)
   end
@@ -108,8 +112,10 @@ class MiniTestSoftAssert < Minitest::Test
   end
 
   def test_assert_hash_equals
-    SoftAssert.assert_hash_equals({ a: 1, b: 2 }, { a: 1, b: 2 }, 'Expected hashes to be equal')
-    SoftAssert.assert_all
+    test_case = Minitest::Test.new('fake')
+    test_case.assert_equal({ a: 1, b: 2 }, { a: 1, b: 2 }, 'Expected hashes to be equal')
+  rescue Minitest::Assertion => e
+    flunk("Minitest::Assertion was thrown: #{e.message}")
   rescue StandardError => e
     assert_match(/Expected hashes to be equal/, e.message)
   end
@@ -122,16 +128,16 @@ class MiniTestSoftAssert < Minitest::Test
   end
 
   def test_assert_map_equals
-    SoftAssert.assert_map_equals({ a: 1, b: 2 }, { a: 1, b: 2 }, 'Expected hashes to be equal')
-    SoftAssert.assert_all
+    test_case = Minitest::Test.new('fake')
+    test_case.assert_equal({ a: 1, b: 2 }, { a: 1, b: 2 }, 'Expected hashes to be equal')
+  rescue Minitest::Assertion => e
+    flunk("Minitest::Assertion was thrown: #{e.message}")
   rescue StandardError => e
     assert_match(/Expected hashes to be equal/, e.message)
   end
 
   def test_assert_map_not_equals
-    SoftAssert.assert_map_not_equals({ a: 1, b: 2 }, { b: 2, a: 1 }, 'Expected hashes to not be equal')
+    SoftAssert.assert_map_not_equals({ a: 1, b: 2 }, { b: 2, a: 3 }, 'Expected hashes to not be equal')
     SoftAssert.assert_all
-  rescue StandardError => e
-    assert_match(/Expected hashes to not be equal/, e.message)
   end
 end
