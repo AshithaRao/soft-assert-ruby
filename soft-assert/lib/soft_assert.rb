@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'minitest/assertions'
 require 'test/unit/assertions'
 
