@@ -34,15 +34,15 @@ module SoftAssert
 
   # Asserts that two values are equal.
   # If the assertion fails, the error is recorded and the test continues.
-  def self.assert_equals(expected, actual, message = nil)
-    assert_equal(expected, actual, message)
-  rescue Minitest::Assertion => e
+  def self.assert_equal(expected, actual, message = nil)
+    Minitest::Assertions.assert_equal(expected, actual, message)
+  rescue Test::Unit::AssertionFailedError => e
     @soft_errors << e
   end
 
   # Asserts that two values are not equal.
   # If the assertion fails, the error is recorded and the test continues.
-  def self.assert_not_equals(expected, actual, message = nil)
+  def self.assert_not_equal(expected, actual, message = nil)
     refute_equal(expected, actual, message)
   rescue Minitest::Assertion => e
     @soft_errors << e
@@ -119,7 +119,7 @@ module SoftAssert
     expected_sorted = expected.sort_by(&:to_s)
     actual_sorted = actual.sort_by(&:to_s)
 
-    assert_equal(expected_sorted, actual_sorted, message)
+    SoftAssert.assert_equal(expected_sorted, actual_sorted, message)
   rescue Minitest::Assertion => e
     @soft_errors << e
   end
@@ -143,7 +143,7 @@ module SoftAssert
     expected_sorted = expected.sort_by { |k, v| [k, v.to_s] }.to_h
     actual_sorted = actual.sort_by { |k, v| [k, v.to_s] }.to_h
 
-    assert_equal(expected_sorted, actual_sorted, message)
+    SoftAssert.assert_equal(expected_sorted, actual_sorted, message)
   rescue Minitest::Assertion => e
     @soft_errors << e
   end
@@ -167,7 +167,7 @@ module SoftAssert
     expected_sorted = expected.sort_by { |k, v| [k, v.to_s] }.to_h
     actual_sorted = actual.sort_by { |k, v| [k, v.to_s] }.to_h
 
-    assert_equal(expected_sorted, actual_sorted, message)
+    SoftAssert.assert_equal(expected_sorted, actual_sorted, message)
   rescue Minitest::Assertion => e
     @soft_errors << e
   end
